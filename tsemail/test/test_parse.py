@@ -1,6 +1,6 @@
 __author__ = 'Chris Degiere'
 
-from parse import *
+from tsemail.parse import *
 
 ex1 = """TradeStation - Order has been filled for NGJ14
     Order: Sell 1 NGJ14 @ Market
