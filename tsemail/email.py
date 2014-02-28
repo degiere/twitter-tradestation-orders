@@ -15,6 +15,7 @@ import json
 def fetch_emails(username, password, label, after):
     """ Fetch unread emails for today and mark read """
     g = gmail.login(username, password)
+    # emails = g.mailbox(label).mail(unread=True, after=after)
     emails = g.mailbox(label).mail(after=after)
     text = []
     for e in emails:
@@ -23,7 +24,6 @@ def fetch_emails(username, password, label, after):
         date = e.headers['Date']  # 'Thu, 27 Feb 2014 11:29:01 -0800 (PST)'
         body = e.body
         text.append({'id': id, 'date': date, 'body': body})
-        #e.read()  # turn this on when testing is done
     g.logout()
     return text
 
