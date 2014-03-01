@@ -30,7 +30,7 @@ def fetch_emails(username, password, label, after):
 
 def serialize(emails, filename):
     """ dump json representation of relevent email parts to file """
-    data = json.dumps(emails)
+    data = json.dumps(emails, sort_keys=True, indent=4, separators=(',', ': '))
     f = open(filename, 'w')
     f.write(data)
     f.close()

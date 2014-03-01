@@ -6,6 +6,7 @@ __author__ = 'Chris Degiere'
 
 from tsemail import email
 from tsemail import config
+from tsemail import parse
 
 import datetime
 
@@ -23,7 +24,14 @@ def main():
         print e
     email.serialize(emails, filename)
     print "wrote to: " + filename
-
+    emails = email.deserialize(filename)
+    for e in emails:
+        body = e['body']
+        stamp = e['date']
+        if parse.order(body):
+            direction, quantity, symbol = parse.order_details(body)
+            root, month, year = parse.contract_details(symbol)
+            print "|".join([stamp, direction, quantity, root])
 
 if __name__ == "__main__":
     main()
