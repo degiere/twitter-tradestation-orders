@@ -4,19 +4,27 @@ Schedule me to run once every 15 minutes with cron or similar
 """
 __author__ = 'Chris Degiere'
 
+from datetime import datetime, date
+import pytz
+
 from tsemail import email
 from tsemail import config
 from tsemail import parse
 
-import datetime
-
 filename = 'data.txt'
 
 
+def minutes_between(now, then):
+    # TODO: sanity check timezone handling if deployed somewhere other than PST
+    now = now.replace(tzinfo=pytz.timezone('US/Pacific'))
+    return (now - then).seconds / 60
+
+
 def main():
-    today = datetime.date.today()
+    today = date.today()
+    now = datetime.now()
     print "---"
-    print str(datetime.datetime.now()) + " fetching order emails..."
+    print str(now) + " fetching order emails..."
     username, password, label = config.parse_config()
     emails = email.fetch_emails(username, password, label, today)
     print "fetched: " + str(len(emails)) + " order emails"
@@ -27,11 +35,11 @@ def main():
     emails = email.deserialize(filename)
     for e in emails:
         body = e['body']
-        stamp = e['date']
+        dt = email.parse_date(e['date'])
         if parse.order(body):
             direction, quantity, symbol = parse.order_details(body)
             root, month, year = parse.contract_details(symbol)
-            print "|".join([stamp, direction, quantity, root])
+            print "|".join([str(dt), direction, quantity, root, str(minutes_between(now, dt))])
 
 if __name__ == "__main__":
     main()

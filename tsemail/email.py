@@ -10,6 +10,7 @@ __author__ = 'Chris Degiere'
 
 import gmail
 import json
+from dateutil import parser
 
 
 def fetch_emails(username, password, label, after):
@@ -41,3 +42,8 @@ def deserialize(file):
     with open(file, 'r') as f:
         data = f.read()
     return json.loads(data)
+
+
+def parse_date(str):
+    """ parse gmail time stamp: Fri, 28 Feb 2014 08:00:01 -0800 (PST) """
+    return parser.parse(str)
