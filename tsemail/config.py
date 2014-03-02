@@ -1,20 +1,21 @@
 """
-Config file for Gmail account settings, copy .tradestation-emails.ini to ~/.tradestation-emails.ini and change
+Set these environment variables:
+    export TSEMAIL_USERNAME='yourusername'
+    export TSEMAIL_PASSWORD'='abcdefghijklmnop'
+    export TSEMAIL_LABEL='Your Label'
 """
 __author__ = 'Chris Degiere'
 
-from configobj import ConfigObj
-from os.path import expanduser
+import os
 
-name = '.tradestation-emails.ini'
-default = expanduser("~") + "/" + name
+envs = ['TSEMAIL_USERNAME', 'TSEMAIL_PASSWORD', 'TSEMAIL_LABEL']
 
 
-def parse_config(file=default):
-    """ parse a config file in the user's home directory for email account info """
-    config = ConfigObj(file)
-    if 'username' not in config or 'password' not in config or 'label' not in config:
-        raise Exception("Perhaps you didn't add " + default + "? See: " + name)
-    return config['username'], config['password'], config['label']
+def config():
+    """ get config values from environment variables or alert """
+    for env in envs:
+        if env not in os.environ:
+            raise Exception("Perhaps you didn't set these environment variables? " + ", ".join(envs))
+    return os.environ['TSEMAIL_USERNAME'], os.environ['TSEMAIL_PASSWORD'], os.environ['TSEMAIL_LABEL']
 
 

@@ -25,7 +25,7 @@ def main():
     now = datetime.now()
     print "---"
     print str(now) + " fetching order emails..."
-    username, password, label = config.parse_config()
+    username, password, label = config.config()
     emails = email.fetch_emails(username, password, label, today)
     print "fetched: " + str(len(emails)) + " order emails"
     for e in emails:
