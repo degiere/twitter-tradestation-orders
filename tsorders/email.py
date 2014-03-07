@@ -9,14 +9,11 @@ Setup a filter in Gmail
 __author__ = 'Chris Degiere'
 
 import gmail
-import json
-from dateutil import parser
 
 
 def fetch_emails(username, password, label, after):
     """ Fetch unread emails for today and mark read """
     g = gmail.login(username, password)
-    # emails = g.mailbox(label).mail(unread=True, after=after)
     emails = g.mailbox(label).mail(after=after)
     text = []
     for e in emails:
@@ -27,23 +24,3 @@ def fetch_emails(username, password, label, after):
         text.append({'id': id, 'date': date, 'body': body})
     g.logout()
     return text
-
-
-def serialize(emails, filename):
-    """ dump json representation of relevent email parts to file """
-    data = json.dumps(emails, sort_keys=True, indent=4, separators=(',', ': '))
-    f = open(filename, 'w')
-    f.write(data)
-    f.close()
-
-
-def deserialize(file):
-    """ read data file and parser json back to array of dicts """
-    with open(file, 'r') as f:
-        data = f.read()
-    return json.loads(data)
-
-
-def parse_date(str):
-    """ parse gmail time stamp: Fri, 28 Feb 2014 08:00:01 -0800 (PST) """
-    return parser.parse(str)

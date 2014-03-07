@@ -1,5 +1,7 @@
 .idea
-data.txt
+emails.txt
+tweets.txt
+template.txt
 
 *.py[cod]
 

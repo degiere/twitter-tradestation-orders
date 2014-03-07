@@ -4,42 +4,53 @@ Schedule me to run once every 15 minutes with cron or similar
 """
 __author__ = 'Chris Degiere'
 
-from datetime import datetime, date
-import pytz
+from tsorders import dates
+from tsorders import config
+from tsorders import email
+from tsorders import parse
+from tsorders import io
+from tsorders import twtr
 
-from tsemail import email
-from tsemail import config
-from tsemail import parse
-
-filename = 'data.txt'
-
-
-def minutes_between(now, then):
-    # TODO: sanity check timezone handling if deployed somewhere other than PST
-    now = now.replace(tzinfo=pytz.timezone('US/Pacific'))
-    return (now - then).seconds / 60
+email_file = 'emails.txt'
+tweet_file = 'tweets.txt'
 
 
 def main():
-    today = date.today()
-    now = datetime.now()
     print "---"
+    now = dates.now_tz()
+
     print str(now) + " fetching order emails..."
-    username, password, label = config.config()
-    emails = email.fetch_emails(username, password, label, today)
+    username, password, label = config.email_config()
+    emails = email.fetch_emails(username, password, label, dates.today())
+
     print "fetched: " + str(len(emails)) + " order emails"
     for e in emails:
         print e
-    email.serialize(emails, filename)
-    print "wrote to: " + filename
-    emails = email.deserialize(filename)
+
+    io.serialize(emails, email_file)
+    print "wrote to: " + email_file
+
+    emails = io.deserialize(email_file)
     for e in emails:
         body = e['body']
-        dt = email.parse_date(e['date'])
+        dt = dates.parse(e['date'])
         if parse.order(body):
             direction, quantity, symbol = parse.order_details(body)
             root, month, year = parse.contract_details(symbol)
-            print "|".join([str(dt), direction, quantity, root, str(minutes_between(now, dt))])
+            print "|".join([str(dt), direction, quantity, root, str(dates.minutes_between(now, dt))])
+
+    print "fetching tweets..."
+    api_key, api_secret, access_token, access_secret = config.twitter_config()
+    api = twtr.login(api_key, api_secret, access_token, access_secret)
+    tweets = twtr.filtered(twtr.latest(api))
+
+    io.serialize(tweets, tweet_file)
+    print "wrote tweets to: " + tweet_file
+
+    tweets = twtr.todays_tweets(tweets)
+    for tweet in tweets:
+        print str(tweet['created_at']) + "|" + tweet['text']
+
 
 if __name__ == "__main__":
     main()
