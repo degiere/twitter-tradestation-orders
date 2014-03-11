@@ -30,18 +30,8 @@ def filter(tweet):
 
 
 def filtered(tweets):
-    filtered = []
-    for tweet in tweets:
-        filtered.append(filter(tweet))
-    return filtered
+    return [filter(tweet) for tweet in tweets]
 
 
 def todays_tweets(tweets):
-    todays = []
-    for tweet in tweets:
-        if dates.is_today(dates.parse(tweet['created_at'])):
-            todays.append(tweet)
-    return todays
-
-
-
+    return [tweet for tweet in tweets if dates.is_today(dates.parse(tweet['created_at']))]

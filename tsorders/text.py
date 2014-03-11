@@ -24,10 +24,8 @@ def as_tag(s):
 
 
 def by_tags(m):
-    bt = {}
-    for root in m.keys():
-        bt[as_tag(m[root]['name'])] = root
-    return bt
+    return {as_tag(m[root]['name']): root for root in m.keys()}
+
 
 tag_root = by_tags(mapping)
 
@@ -70,10 +68,7 @@ def direction(s):
 
 
 def mapping_tags():
-    tags = []
-    for v in mapping.keys():
-        tags.append(as_tag(mapping[v]['name']))
-    return tags
+    return [as_tag(mapping[v]['name']) for v in mapping.keys()]
 
 
 def position(s):
