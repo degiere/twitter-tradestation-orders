@@ -36,12 +36,14 @@ def main():
     for e in emails:
         body = e['body']
         dt = dates.parse(e['date'])
-        if text.order(body):
+        mins = dates.minutes_between(now, dt)
+        print "Message is: " + str(mins) + " minutes old"
+        if text.order(body) and mins > delay_minutes:
             type, quantity, symbol = text.order_details(body)
             root, month, year = text.contract_details(symbol)
             if root not in positions:
                 positions[root] = text.as_direction(type).lower()
-            # print "|".join([str(dt), direction, quantity, root, str(dates.minutes_between(now, dt))])
+            # print "|".join([str(dt), type, str(quantity), root, str(mins)])
     print positions
 
     print "fetching tweets..."
@@ -52,16 +54,13 @@ def main():
     io.serialize(tweets, tweet_file)
     print "wrote tweets to: " + tweet_file
 
-    print "checking positions against delay and against tweets:"
+    print "checking positions against tweets:"
     # check today's tweets and remove from position if already posted or newer than 30 minutes
     tweets = twtr.todays_tweets(tweets)
     for tweet in tweets:
         stamp = tweet['created_at']
         body = tweet['text']
         print str(stamp) + "|" + body
-        mins = dates.minutes_between(now, dates.parse(stamp))
-        print "Message is: " + str(mins) + " minutes old"
-        # only post if at least 30 minutes old
         root, direction = text.position(tweet['text'])
         if root in positions:
             print "   already posted tweet for: " + direction.capitalize() + " " + root
