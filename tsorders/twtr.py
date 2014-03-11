@@ -19,6 +19,10 @@ def latest(api):
     return api.statuses.user_timeline(count=10)  # defaults to authorized user
 
 
+def post(message, api):
+    api.statuses.update(status=message)
+
+
 def filter(tweet):
     created = dates.parse(tweet['created_at'])  # tweets are in utc
     text = tweet['text']
@@ -38,8 +42,6 @@ def todays_tweets(tweets):
         if dates.is_today(dates.parse(tweet['created_at'])):
             todays.append(tweet)
     return todays
-
-
 
 
 
