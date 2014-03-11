@@ -37,13 +37,13 @@ def main():
         body = e['body']
         dt = dates.parse(e['date'])
         mins = dates.minutes_between(now, dt)
-        print "Message is: " + str(mins) + " minutes old"
+        print "   Message is: " + str(mins) + " minutes old - " + text.one_line(body)
         if text.order(body) and mins > delay_minutes:
             type, quantity, symbol = text.order_details(body)
             root, month, year = text.contract_details(symbol)
             if root not in positions:
                 positions[root] = text.as_direction(type).lower()
-            # print "|".join([str(dt), type, str(quantity), root, str(mins)])
+            #print "|".join([str(dt), type, str(quantity), root, str(mins)])
     print positions
 
     print "fetching tweets..."
@@ -55,7 +55,7 @@ def main():
     print "wrote tweets to: " + tweet_file
 
     print "checking positions against tweets:"
-    # check today's tweets and remove from position if already posted or newer than 30 minutes
+    # check today's tweets and remove from position if already posted
     tweets = twtr.todays_tweets(tweets)
     for tweet in tweets:
         stamp = tweet['created_at']
@@ -74,7 +74,7 @@ def main():
         tweet = text.compose(symbol, direction)
         print tweet
         print "posting..."
-        #twtr.post(tweet, api)
+        twtr.post(tweet, api)
 
 
 if __name__ == "__main__":

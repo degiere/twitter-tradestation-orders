@@ -84,3 +84,7 @@ def compose(symbol, direction):
     s = s + mapping[symbol]['link'] + " " + " ".join([as_tag(t) for t in default_tags])
     s = s + " " + as_tag(mapping[symbol]['name'])
     return s
+
+
+def one_line(s):
+    return s.replace('\t', ' ').replace('\n', '\ ').replace('\r', ' ')
