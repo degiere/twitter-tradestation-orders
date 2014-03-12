@@ -11,3 +11,10 @@ References
 ==========
 * http://en.wikipedia.org/wiki/Information_extraction
 * http://en.wikipedia.org/wiki/Natural_language_generation
+
+About
+=====
+[Trading Technicians](http://tradingtechnicians.com/)
+develops automated trading systems for commodity futures, alternative investments, and absolute returns.
+Follow live performance on Twitter [@TradeTechnicians](https://twitter.com/TradeTechnician).
+
