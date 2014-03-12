@@ -16,5 +16,5 @@ About
 =====
 [Trading Technicians](http://tradingtechnicians.com/)
 develops automated trading systems for commodity futures, alternative investments, and absolute returns.
-Follow live performance on Twitter [@TradeTechnicians](https://twitter.com/TradeTechnician).
+Follow live performance on Twitter [@TradeTechnician](https://twitter.com/TradeTechnician).
 
