@@ -1,4 +1,4 @@
-gmail==0.0.5
+git+git://github.com/charlierguo/gmail.git
 nose==1.2.1
 python-dateutil==1.5
 pytz==2011n
