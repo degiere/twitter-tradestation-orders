@@ -25,8 +25,8 @@ def main():
     emails = email.fetch_emails(username, password, label, dates.today())
 
     print "fetched: " + str(len(emails)) + " order emails"
-    # for e in emails:
-    #     print e
+    for e in emails:
+        print e
 
     io.serialize(emails, email_file)
     print "wrote to: " + email_file
@@ -43,7 +43,7 @@ def main():
             root, month, year = text.contract_details(symbol)
             if root not in positions:
                 positions[root] = text.as_direction(type).lower()
-            #print "|".join([str(dt), type, str(quantity), root, str(mins)])
+            print "|".join([str(dt), type, str(quantity), root, str(mins)])
     print positions
 
     print "fetching tweets..."
@@ -68,13 +68,13 @@ def main():
 
     # only post one per cycle
     if positions:
-        symbol = positions.keys().pop()
+        symbol = positions.keys()[0]
         direction = positions[symbol]
         print "composing tweet for: " + direction.capitalize() + " " + symbol
         tweet = text.compose(symbol, direction)
         print tweet
         print "posting..."
-        twtr.post(tweet, api)
+        #twtr.post(tweet, api)
 
 
 if __name__ == "__main__":
