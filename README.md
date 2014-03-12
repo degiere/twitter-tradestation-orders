@@ -9,5 +9,5 @@ See: requirements.txt
 
 References
 ==========
-http://en.wikipedia.org/wiki/Information_extraction
-http://en.wikipedia.org/wiki/Natural_language_generation
+* http://en.wikipedia.org/wiki/Information_extraction
+* http://en.wikipedia.org/wiki/Natural_language_generation
