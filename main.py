@@ -74,7 +74,7 @@ def main():
         tweet = text.compose(symbol, direction)
         print tweet
         print "posting..."
-        #twtr.post(tweet, api)
+        twtr.post(tweet, api)
 
 
 if __name__ == "__main__":
