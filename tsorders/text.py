@@ -13,7 +13,8 @@ months = ['F', 'G', 'H', 'J', 'K', 'M', 'N', 'Q', 'U', 'V', 'X', 'Z']
 
 mapping = {
     'NG': {'name': 'Natural Gas', 'link': 'http://bit.ly/MEZwMR'},
-    'GC': {'name': 'Gold', 'link': 'http://bit.ly/1mTWmlO'}
+    'GC': {'name': 'Gold', 'link': 'http://bit.ly/1mTWmlO'},
+    'CL': {'name': 'Crude Oil', 'link': 'http://bit.ly/1jCKLUj'}
 }
 
 
